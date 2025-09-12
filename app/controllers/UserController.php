@@ -6,16 +6,46 @@ class UserController extends Controller {
     {
         parent::__construct();
         $this->call->model('UserModel');
+        $this->call->library('pagination'); 
     }
 
-    
     public function view()
     {
-        $data['signups'] = $this->UserModel->all();
+        $page = 1;
+        if (isset($_GET['page']) && !empty($_GET['page'])) {
+            $page = $this->io->get('page');
+        }
+
+        $q = '';
+        if (isset($_GET['q']) && !empty($_GET['q'])) {
+            $q = trim($this->io->get('q'));
+        }
+
+        $records_per_page = 5;
+
+        $all = $this->UserModel->page($q, $records_per_page, $page);
+        $data['signups'] = $all['records'];
+        $total_rows = $all['total_rows'];
+
+        $this->pagination->set_options([
+            'first_link'     => '⏮ First',
+            'last_link'      => 'Last ⏭',
+            'next_link'      => 'Next →',
+            'prev_link'      => '← Prev',
+            'page_delimiter' => '&page='
+        ]);
+        $this->pagination->set_theme('bootstrap');
+        $this->pagination->initialize(
+            $total_rows,
+            $records_per_page,
+            $page,
+            site_url('users/view') . '?q=' . urlencode($q)
+        );
+        $data['page'] = $this->pagination->paginate();
+
         $this->call->view('users/view', $data);
     }
 
-    
     public function create()
     {
         if ($this->io->method() === 'post') {
@@ -65,11 +95,9 @@ class UserController extends Controller {
         }
     }
 
-    
     public function delete($id)
     {
         if ($this->io->method() === 'post') {
-            // Actually delete the signup (POST request from confirmation form)
             try {
                 if ($this->UserModel->delete($id)) {
                     redirect('users/view');
@@ -80,7 +108,6 @@ class UserController extends Controller {
                 echo 'Something went wrong while removing team signup: ' . htmlspecialchars($e->getMessage());
             }
         } else {
-            // Show delete confirmation page (GET request from signups table)
             $data['signup'] = $this->UserModel->find($id);
             if (!$data['signup']) {
                 echo 'Team signup not found';
@@ -90,3 +117,4 @@ class UserController extends Controller {
         }
     }
 }
+?>

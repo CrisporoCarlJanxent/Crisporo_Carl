@@ -1,108 +1,348 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tournament Registrations</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Arial', sans-serif; color: #e0e0e0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; }
-        .bg-decor { position: fixed; inset: 0; z-index: -1; pointer-events: none; background:
-            radial-gradient(600px 600px at 0% 0%, rgba(0,255,255,.08), transparent 60%),
-            radial-gradient(600px 600px at 100% 0%, rgba(255,0,255,.06), transparent 60%),
-            radial-gradient(600px 600px at 0% 100%, rgba(0,255,127,.05), transparent 60%),
-            radial-gradient(600px 600px at 100% 100%, rgba(255,127,0,.07), transparent 60%);
-            animation: floatBg 20s ease-in-out infinite alternate; }
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 16px; }
-        .card { background: linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%); border: 2px solid #00ffff; border-radius: 16px; box-shadow: 0 0 30px rgba(0,255,255,.2), 0 10px 40px rgba(0,0,0,.4); overflow: hidden; transform: translateY(8px); opacity: 0; animation: cardIn .8s ease-out forwards; position: relative; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00ffff, #ff00ff, #00ff80, #ffaa00); animation: borderFlow 4s linear infinite; }
-        .card-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 2px solid #444; background: linear-gradient(135deg, rgba(0,255,255,.05) 0%, rgba(255,0,255,.05) 100%); position: relative; }
-        .card-header::before { content: '🏆'; position: absolute; left: -5px; top: 50%; transform: translateY(-50%); font-size: 32px; opacity: 0.3; animation: pulse 3s infinite; }
-        .title { margin: 0; font-size: 28px; letter-spacing: 1px; color: #00ffff; font-weight: 700; text-shadow: 0 0 15px rgba(0,255,255,.5); text-transform: uppercase; padding-left: 40px; }
-        .actions { display: flex; gap: 12px; }
-        .table-wrapper { overflow-x: auto; animation: fadeIn .8s ease .2s both; background: rgba(0,0,0,.2); }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border-bottom: 1px solid #333; padding: 16px 18px; text-align: left; }
-        th { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); font-weight: 700; color: #00ff80; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; border-top: 1px solid #00ff80; }
-        tr { transition: all .3s ease; }
-        tr:hover td { background: rgba(0,255,255,.05); box-shadow: inset 0 0 20px rgba(0,255,255,.1); }
-        .team-name { color: #00ffff; font-weight: 600; }
-        .captain-name { color: #ffaa00; }
-        .game-title { color: #ff6b9d; font-weight: 500; }
-        .btn { display: inline-block; padding: 12px 18px; text-decoration: none; border-radius: 10px; border: 2px solid transparent; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all .3s ease; position: relative; overflow: hidden; }
-        .btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, transparent, rgba(255,255,255,.1), transparent); transform: translateX(-100%); transition: transform .6s ease; }
-        .btn:hover::before { transform: translateX(100%); }
-        .btn:active { transform: translateY(1px); }
-        .btn-primary { background: linear-gradient(135deg, #00ffff 0%, #0099cc 100%); color: #1a1a1a; border-color: #00ffff; box-shadow: 0 4px 15px rgba(0,255,255,.2); font-weight: 700; }
-        .btn-primary:hover { background: linear-gradient(135deg, #00cccc 0%, #0077aa 100%); box-shadow: 0 6px 20px rgba(0,255,255,.3); transform: translateY(-2px); }
-        .btn-edit { background: linear-gradient(135deg, #ffaa00 0%, #ff8800 100%); color: #1a1a1a; border-color: #ffaa00; box-shadow: 0 4px 15px rgba(255,170,0,.2); }
-        .btn-edit:hover { background: linear-gradient(135deg, #ff9900 0%, #ff7700 100%); box-shadow: 0 6px 20px rgba(255,170,0,.3); transform: translateY(-2px); }
-        .btn-delete { background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); color: white; border-color: #ff4444; box-shadow: 0 4px 15px rgba(255,68,68,.2); }
-        .btn-delete:hover { background: linear-gradient(135deg, #ff2222 0%, #aa0000 100%); box-shadow: 0 6px 20px rgba(255,68,68,.3); transform: translateY(-2px); }
-        .empty { padding: 40px; text-align: center; color: #666; font-size: 18px; font-style: italic; }
-        .action-buttons { display: flex; gap: 8px; align-items: center; }
-        .stats-bar { background: rgba(0,255,255,.1); padding: 10px 20px; border-bottom: 1px solid #333; color: #00ffff; font-size: 14px; }
-        .gaming-elements { position: absolute; top: 15px; right: 15px; font-size: 14px; color: #666; display: flex; gap: 10px; }
-        .id-badge { background: linear-gradient(135deg, #333, #555); color: #00ffff; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; }
+    <title>Team Signups - Gaming Tournament</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-        @keyframes cardIn { to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes floatBg { 0% { background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%; } 100% { background-position: 10% 5%, 90% 10%, 5% 90%, 95% 95%; } }
-        @keyframes borderFlow { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(1); } 50% { opacity: 0.6; transform: translateY(-50%) scale(1.1); } }
+    <style>
+        /* Gaming Theme Variables */
+        :root {
+            --primary-cyan: #00d4ff;
+            --secondary-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Main Container */
+        .main-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Title */
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary-cyan);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Search Input */
+        .search-input {
+            background: var(--dark-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+            background: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
+        .btn-gaming {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gaming:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            color: white;
+        }
+
+        .btn-secondary-gaming {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-gaming:hover {
+            border-color: var(--primary-cyan);
+            color: var(--primary-cyan);
+        }
+
+        /* Table */
+        .gaming-table {
+            background: var(--dark-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .gaming-table th {
+            background: var(--card-bg);
+            color: var(--primary-cyan);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--primary-cyan);
+            padding: 16px 12px;
+        }
+
+        .gaming-table td {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 12px;
+            transition: background 0.2s ease;
+        }
+
+        .gaming-table tbody tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Action Buttons */
+        .btn-edit {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit:hover {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination-gaming .page-item .page-link {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            margin: 0 2px;
+            padding: 10px 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-gaming .page-item .page-link:hover {
+            background: var(--primary-cyan);
+            border-color: var(--primary-cyan);
+            color: white;
+        }
+
+        .pagination-gaming .page-item.active .page-link {
+            background: var(--primary-cyan);
+            border-color: var(--primary-cyan);
+            color: white;
+        }
+
+        .pagination-gaming .page-item.disabled .page-link {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* No Results */
+        .no-results {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        /* Gaming Icons */
+        .gaming-icon {
+            color: var(--primary-cyan);
+            margin-right: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.5rem;
+            }
+            
+            .gaming-table {
+                font-size: 0.9rem;
+            }
+            
+            .gaming-table th,
+            .gaming-table td {
+                padding: 12px 8px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-decor"></div>
-    <div class="container">
-    <div class="card">
-        <div class="gaming-elements">
-            <span>🎮 ESPORTS</span>
-            <span>⚡ LIVE</span>
-        </div>
-        <div class="card-header">
-            <h1 class="title">Tournament Registrations</h1>
-            <div class="actions">
-                <a href="<?= site_url('users/create') ?>" class="btn btn-primary">🎯 Register Team</a>
+
+<div class="container mt-5">
+    <div class="main-container shadow-lg p-4">
+        <h2 class="main-title mb-4 text-center">
+            <i class="fas fa-gamepad gaming-icon"></i>
+            TOURNAMENT TEAM SIGNUPS
+            <i class="fas fa-trophy gaming-icon"></i>
+        </h2>
+
+        <!-- Search + Add/Back -->
+        <form method="get" action="<?= site_url('users/view'); ?>" class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div class="search-container d-flex align-items-center">
+                <div class="input-group">
+                    <input type="text" name="q" 
+                           class="form-control search-input" 
+                           placeholder="🔍 Search teams..."
+                           value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                    <button class="btn btn-gaming" type="submit">
+                        <i class="fas fa-search"></i> SEARCH
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <?php if (!empty($signups)): ?>
-        <div class="stats-bar">
-            📊 Total Registered Teams: <strong><?= count($signups) ?></strong>
-        </div>
-        <?php endif; ?>
-        
-        <div class="table-wrapper">
-        <table>
-            <tr>
-                <th>Team ID</th>
-                <th>Team Name</th>
-                <th>Team Captain</th>
-                <th>Game Title</th>
-                <th>Actions</th>
-            </tr>
-            <?php if (!empty($signups)): ?>
-                <?php foreach($signups as $signup): ?>
-                <tr>
-                    <td><span class="id-badge">#<?= $signup['id'] ?></span></td>
-                    <td class="team-name"><?= $signup['team_name'] ?></td>
-                    <td class="captain-name"><?= $signup['captain_name'] ?></td>
-                    <td class="game-title"><?= $signup['game_title'] ?></td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="<?= site_url('users/update/' . $signup['id']) ?>" class="btn btn-edit">⚙️ Edit</a>
-                            <a href="<?= site_url('users/delete/' . $signup['id']) ?>" class="btn btn-delete">🗑️ Remove</a>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
+
+            <!-- Right Side Button -->
+            <?php if (!empty($_GET['q'])): ?>
+                <!-- Back when searching -->
+                <a href="<?= site_url('users/view'); ?>" class="btn btn-secondary-gaming">
+                    <i class="fas fa-arrow-left"></i> BACK TO ALL TEAMS
+                </a>
             <?php else: ?>
-                <tr>
-                    <td colspan="5" class="empty">🎮 No teams registered yet. Be the first to join the tournament!</td>
-                </tr>
+                <!-- Add Team by default -->
+                <a href="<?= site_url('users/create'); ?>" class="btn btn-gaming">
+                    <i class="fas fa-plus"></i> ADD TEAM
+                </a>
             <?php endif; ?>
-        </table>
+        </form>
+
+        <!-- Gaming Table -->
+        <div class="table-responsive">
+            <table class="table gaming-table text-center align-middle">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag"></i> ID</th>
+                        <th><i class="fas fa-users"></i> Team Name</th>
+                        <th><i class="fas fa-crown"></i> Captain</th>
+                        <th><i class="fas fa-gamepad"></i> Game Title</th>
+                        <th><i class="fas fa-cogs"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($signups)): ?>
+                        <?php foreach ($signups as $signup): ?>
+                            <tr>
+                                <td><span class="badge bg-primary"><?= $signup['id']; ?></span></td>
+                                <td><strong><?= htmlspecialchars($signup['team_name']); ?></strong></td>
+                                <td><?= htmlspecialchars($signup['captain_name']); ?></td>
+                                <td><em><?= htmlspecialchars($signup['game_title']); ?></em></td>
+                                <td>
+                                    <a href="<?= site_url('users/update/'.$signup['id']); ?>" 
+                                       class="btn btn-sm btn-edit me-2">
+                                        <i class="fas fa-edit"></i> EDIT
+                                    </a>
+                                    <a href="<?= site_url('users/delete/'.$signup['id']); ?>" 
+                                       class="btn btn-sm btn-delete">
+                                        <i class="fas fa-trash-alt"></i> DELETE
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="no-results">
+                                <i class="fas fa-search gaming-icon"></i>
+                                No teams found. Ready to dominate? Create the first team!
+                                <i class="fas fa-rocket gaming-icon"></i>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
+
+        <!-- Gaming Pagination -->
+        <?php if (!empty($page)): ?>
+            <nav class="mt-4">
+                <ul class="pagination pagination-gaming justify-content-center">
+                    <?= $page; ?>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
-    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hover effects for buttons
+        const buttons = document.querySelectorAll('.btn-gaming, .btn-edit, .btn-delete');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Table row hover effects
+        const tableRows = document.querySelectorAll('.gaming-table tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.borderLeft = '3px solid #00d4ff';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.borderLeft = 'none';
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
