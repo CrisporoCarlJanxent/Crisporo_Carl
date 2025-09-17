@@ -127,6 +127,40 @@
             background: rgba(0, 212, 255, 0.05);
         }
 
+        /* Team Logo Styling - FIXED */
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .team-logo:hover {
+            border-color: var(--primary-cyan);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo-placeholder:hover {
+            border-color: var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
         /* Action Buttons */
         .btn-edit {
             background: var(--accent-green);
@@ -219,6 +253,12 @@
             .gaming-table td {
                 padding: 12px 8px;
             }
+
+            .team-logo,
+            .logo-placeholder {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -266,6 +306,7 @@
                 <thead>
                     <tr>
                         <th><i class="fas fa-hashtag"></i> ID</th>
+                        <th><i class="fas fa-image"></i> Logo</th>
                         <th><i class="fas fa-users"></i> Team Name</th>
                         <th><i class="fas fa-crown"></i> Captain</th>
                         <th><i class="fas fa-gamepad"></i> Game Title</th>
@@ -277,16 +318,35 @@
                         <?php foreach ($signups as $signup): ?>
                             <tr>
                                 <td><span class="badge bg-primary"><?= $signup['id']; ?></span></td>
+                                <td>
+                                    <?php if(isset($signup['team_logo']) && !empty($signup['team_logo'])): ?>
+                                        <img src="<?= base_url() . 'public/' . $signup['team_logo'] ?>" 
+                                             alt="<?= htmlspecialchars($signup['team_name']) ?> Logo" 
+                                             class="team-logo"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                             title="<?= htmlspecialchars($signup['team_name']) ?> Team Logo">
+                                        <div class="logo-placeholder" style="display: none;" title="No logo uploaded">
+                                            <i class="fas fa-image" style="color: var(--text-secondary); font-size: 1.2rem;"></i>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="logo-placeholder" title="No logo uploaded">
+                                            <i class="fas fa-image" style="color: var(--text-secondary); font-size: 1.2rem;"></i>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
                                 <td><strong><?= htmlspecialchars($signup['team_name']); ?></strong></td>
                                 <td><?= htmlspecialchars($signup['captain_name']); ?></td>
                                 <td><em><?= htmlspecialchars($signup['game_title']); ?></em></td>
                                 <td>
                                     <a href="<?= site_url('users/update/'.$signup['id']); ?>" 
-                                       class="btn btn-sm btn-edit me-2">
+                                       class="btn btn-sm btn-edit me-2" 
+                                       title="Edit team">
                                         <i class="fas fa-edit"></i> EDIT
                                     </a>
                                     <a href="<?= site_url('users/delete/'.$signup['id']); ?>" 
-                                       class="btn btn-sm btn-delete">
+                                       class="btn btn-sm btn-delete"
+                                       title="Delete team"
+                                       onclick="return confirm('Are you sure you want to delete this team?');">
                                         <i class="fas fa-trash-alt"></i> DELETE
                                     </a>
                                 </td>
@@ -294,7 +354,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="5" class="no-results">
+                            <td colspan="6" class="no-results">
                                 <i class="fas fa-search gaming-icon"></i>
                                 No teams found. Ready to dominate? Create the first team!
                                 <i class="fas fa-rocket gaming-icon"></i>

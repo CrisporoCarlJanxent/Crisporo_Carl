@@ -89,6 +89,40 @@
         input[type="text"]::placeholder { 
             color: #64748b; 
         }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px dashed #334155;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #f1f5f9;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        input[type="file"]::file-selector-button {
+            padding: 8px 16px;
+            margin-right: 16px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+        }
         
         .actions { 
             display: flex; 
@@ -167,7 +201,12 @@
                 </h1>
             </div>
             <div class="card-body">
-                <form action="<?= site_url('users/create') ?>" method="POST">
+                <form action="<?= site_url('users/create') ?>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="team_logo">Team Logo</label>
+                        <input type="file" name="team_logo" id="team_logo" accept="image/*" required class="form-control" style="background: #0f172a; color: #f1f5f9; border: 2px solid #334155; padding: 8px;">
+                        <small style="display: block; margin-top: 4px; color: #94a3b8;">Accepted formats: JPG, JPEG, PNG, GIF (Max: 2MB)</small>
+                    </div>
                     <div class="form-group">
                         <label for="team_name">Team Name</label>
                         <input type="text" name="team_name" id="team_name" placeholder="Enter your team name" required>

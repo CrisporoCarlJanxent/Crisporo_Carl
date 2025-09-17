@@ -182,7 +182,22 @@
                     Currently editing: <strong><?= $signup['team_name'] ?></strong> • Captain: <strong><?= $signup['captain_name'] ?></strong>
                 </div>
                 
-                <form action="<?= site_url('users/update/' . $signup['id']) ?>" method="POST">
+                <form action="<?= site_url('users/update/' . $signup['id']) ?>" method="POST" enctype="multipart/form-data">
+                    <?php if(isset($signup['team_logo']) && !empty($signup['team_logo'])): ?>
+                    <div class="form-group">
+                        <label>Current Logo</label>
+                        <div style="margin: 10px 0; text-align: center;">
+                            <img src="<?= base_url($signup['team_logo']) ?>" alt="Team Logo" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #334155;">
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="form-group">
+                        <label for="team_logo">Update Team Logo</label>
+                        <input type="file" name="team_logo" id="team_logo" accept="image/*" class="form-control" style="background: #0f172a; color: #f1f5f9; border: 2px solid #334155; padding: 8px;">
+                        <small style="display: block; margin-top: 4px; color: #94a3b8;">Leave empty to keep current logo. Accepted formats: JPG, JPEG, PNG, GIF (Max: 2MB)</small>
+                    </div>
+
                     <div class="form-group">
                         <label for="team_name">Team Name</label>
                         <input type="text" name="team_name" id="team_name" value="<?= $signup['team_name'] ?>" placeholder="Enter your team name" required>

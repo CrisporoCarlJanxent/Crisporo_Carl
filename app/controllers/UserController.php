@@ -7,9 +7,7 @@ class UserController extends Controller {
         parent::__construct();
         $this->call->model('UserModel');
         $this->call->library('pagination'); 
-    }
-
-    public function view()
+    }    public function view()
     {
         $page = 1;
         if (isset($_GET['page']) && !empty($_GET['page'])) {
@@ -53,10 +51,45 @@ class UserController extends Controller {
             $captain_name = $this->io->post('captain_name');
             $game_title = $this->io->post('game_title');
 
+            // Handle file upload manually since we're having issues with the upload library
+            if (!isset($_FILES['team_logo']) || !is_uploaded_file($_FILES['team_logo']['tmp_name'])) {
+                echo 'Error: No file was uploaded. Please select a team logo.';
+                return;
+            }
+
+            $file = $_FILES['team_logo'];
+            
+            // Validate file type
+            $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!in_array($file['type'], $allowed_types)) {
+                echo 'Error: Invalid file type. Please upload a JPG, JPEG, PNG, or GIF file.';
+                return;
+            }
+
+            // Validate file size (2MB max)
+            if ($file['size'] > 2048 * 1024) {
+                echo 'Error: File is too large. Maximum size is 2MB.';
+                return;
+            }
+
+            // Generate unique filename
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $new_filename = uniqid('team_logo_') . '.' . $extension;
+            $destination = './public/' . $new_filename;
+
+            // Move uploaded file
+            if (!move_uploaded_file($file['tmp_name'], $destination)) {
+                echo 'Error: Failed to save the uploaded file.';
+                return;
+            }
+
+            $team_logo = $new_filename;
+
             $data = [
                 'team_name' => $team_name,
                 'captain_name' => $captain_name,
-                'game_title' => $game_title
+                'game_title' => $game_title,
+                'team_logo' => $team_logo
             ];
 
             try {
@@ -82,6 +115,43 @@ class UserController extends Controller {
                 'captain_name' => $captain_name,
                 'game_title' => $game_title
             ];
+
+            // Handle file upload if a new logo is provided
+            if (isset($_FILES['team_logo']) && is_uploaded_file($_FILES['team_logo']['tmp_name'])) {
+                $file = $_FILES['team_logo'];
+                
+                // Validate file type
+                $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!in_array($file['type'], $allowed_types)) {
+                    echo 'Error: Invalid file type. Please upload a JPG, JPEG, PNG, or GIF file.';
+                    return;
+                }
+
+                // Validate file size (2MB max)
+                if ($file['size'] > 2048 * 1024) {
+                    echo 'Error: File is too large. Maximum size is 2MB.';
+                    return;
+                }
+
+                // Generate unique filename
+                $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $new_filename = uniqid('team_logo_') . '.' . $extension;
+                $destination = './public/' . $new_filename;
+
+                // Delete old logo if exists
+                $old_logo = $this->UserModel->find($id)['team_logo'];
+                if ($old_logo && file_exists('./public/' . $old_logo)) {
+                    unlink('./public/' . $old_logo);
+                }
+
+                // Move uploaded file
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
+                    $data['team_logo'] = $new_filename;
+                } else {
+                    echo 'Error: Failed to save the uploaded file.';
+                    return;
+                }
+            }
 
             try {
                 $this->UserModel->update($id, $data);
