@@ -79,8 +79,10 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'https://crisporo-carl.onrender.com/';
-
+$config['base_url'] 				= '';
+                                    /*'http://localhost/CRUD%20BIT/Crisporo_Carl/'*/ 
+                                 
+                                    /* 'https://crisporo-carl.onrender.com/'*/
 /*
 |--------------------------------------------------------------------------
 | Index File
