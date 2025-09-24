@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= '';
+$config['base_url'] 				= 'https://crisporo-carl.onrender.com/';
                                     /*'http://localhost/CRUD%20BIT/Crisporo_Carl/'*/ 
                                  
                                     /* 'https://crisporo-carl.onrender.com/'*/
