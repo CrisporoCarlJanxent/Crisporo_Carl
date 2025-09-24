@@ -170,11 +170,15 @@ class UserController extends Controller {
     public function delete($id)
     {
         if ($this->io->method() === 'post') {
-            // Perform delete and always redirect to avoid blank page in production
+            // Perform delete and always redirect; also remove logo file if present
             try {
+                $signup = $this->UserModel->find($id);
+                if ($signup && !empty($signup['team_logo']) && file_exists('./public/' . $signup['team_logo'])) {
+                    @unlink('./public/' . $signup['team_logo']);
+                }
                 $this->UserModel->delete($id);
             } catch (Exception $e) {
-                // Swallow error for UX; in development you can log $e->getMessage()
+                // Swallow error for UX; log in development if needed
             }
             redirect('users/view');
             return;
