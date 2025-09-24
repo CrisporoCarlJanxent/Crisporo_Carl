@@ -145,8 +145,8 @@ class Session {
 
 		}
 
-	    // Start session before interacting with $_SESSION
-		if (session_status() !== PHP_SESSION_ACTIVE) {
+		// Start session before interacting with $_SESSION
+		if (headers_sent() === false && session_status() !== PHP_SESSION_ACTIVE) {
 			session_start();
 		}
 
