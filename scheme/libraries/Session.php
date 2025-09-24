@@ -94,7 +94,9 @@ class Session {
 		{
 	    	$this->config['cookie_name'] = ini_get('session.name');
 	    } else {
-	    	ini_set('session.name', $this->config['cookie_name']);
+	    	if (headers_sent() === false && session_status() !== PHP_SESSION_ACTIVE) {
+	    		ini_set('session.name', $this->config['cookie_name']);
+	    	}
 	    }
 
 		//Set up session expiration
@@ -103,7 +105,9 @@ class Session {
 	    	$this->config['sess_expiration'] = (int) ini_get('session.gc_maxlifetime');
 	    } else {
 	    	$this->config['sess_expiration'] = (int) $this->config['sess_expiration'];
-	    	ini_set('session.gc_maxlifetime', $this->config['sess_expiration']);
+	    	if (headers_sent() === false && session_status() !== PHP_SESSION_ACTIVE) {
+	    		ini_set('session.gc_maxlifetime', $this->config['sess_expiration']);
+	    	}
 	    }
 
 	    if (isset($this->config['cookie_expiration']))
@@ -112,7 +116,8 @@ class Session {
 		} else {
 	    	$this->config['cookie_expiration'] = ( ! isset($this->config['sess_expiration']) AND $this->config['sess_expire_on_close']) ? 0 : (int) $this->config['sess_expiration'];
 		}
-	    session_set_cookie_params(array(
+	    if (headers_sent() === false && session_status() !== PHP_SESSION_ACTIVE) {
+	    	session_set_cookie_params(array(
 			'lifetime' => $this->config['cookie_expiration'],
 			'path'     => $this->config['cookie_path'],
 			'domain'   => $this->config['cookie_domain'],
@@ -120,12 +125,15 @@ class Session {
 			'httponly' => TRUE,
 			'samesite' => $this->config['cookie_samesite']
 		));
+	    }
 
-	    ini_set('session.use_trans_sid', 0);
-	    ini_set('session.use_strict_mode', 1);
-	    ini_set('session.use_cookies', 1);
-	    ini_set('session.use_only_cookies', 1);
-	    ini_set('session.sid_length', $this->_get_sid_length());
+	    if (headers_sent() === false && session_status() !== PHP_SESSION_ACTIVE) {
+	    	ini_set('session.use_trans_sid', 0);
+	    	ini_set('session.use_strict_mode', 1);
+	    	ini_set('session.use_cookies', 1);
+	    	ini_set('session.use_only_cookies', 1);
+	    	ini_set('session.sid_length', $this->_get_sid_length());
+	    }
 
 	    if ( ! empty($this->config['sess_driver']) AND $this->config['sess_driver'] == 'file' ) {
 			require_once 'Session/FileSessionHandler.php';
@@ -133,6 +141,11 @@ class Session {
 			session_set_save_handler($handler, TRUE);
 		} elseif ( ! empty($this->config['sess_driver']) AND $this->config['sess_driver'] == 'database' ) {
 
+		}
+
+	    // Start session before interacting with $_SESSION
+		if (session_status() !== PHP_SESSION_ACTIVE) {
+			session_start();
 		}
 
 	    //On creation store the useragent fingerprint
@@ -166,7 +179,7 @@ class Session {
 	      	}
 	    }
 
-		session_start();
+		// session already started earlier if needed
 
 		//Set time before session updates
 	    $regenerate_time = (int) $this->config['sess_time_to_update'];
