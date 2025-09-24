@@ -94,10 +94,11 @@ class UserController extends Controller {
 
             try {
                 $this->UserModel->insert($data);
-                redirect('users/view');
             } catch (Exception $e) {
-                echo 'Something went wrong while registering team: ' . htmlspecialchars($e->getMessage());
+                // In production, avoid echoing errors that can break redirects
             }
+            redirect('users/view');
+            return;
         } else {
             $this->call->view('users/create');
         }
@@ -155,10 +156,11 @@ class UserController extends Controller {
 
             try {
                 $this->UserModel->update($id, $data);
-                redirect('users/view');
             } catch (Exception $e) {
-                echo 'Something went wrong while updating team: ' . htmlspecialchars($e->getMessage());
+                // In production, avoid echoing errors that can break redirects
             }
+            redirect('users/view');
+            return;
         } else {
             $data['signup'] = $this->UserModel->find($id);
             $this->call->view('users/update', $data);
@@ -168,19 +170,18 @@ class UserController extends Controller {
     public function delete($id)
     {
         if ($this->io->method() === 'post') {
+            // Perform delete and always redirect to avoid blank page in production
             try {
-                if ($this->UserModel->delete($id)) {
-                    redirect('users/view');
-                } else {
-                    echo 'Something went wrong while removing team signup';
-                }
+                $this->UserModel->delete($id);
             } catch (Exception $e) {
-                echo 'Something went wrong while removing team signup: ' . htmlspecialchars($e->getMessage());
+                // Swallow error for UX; in development you can log $e->getMessage()
             }
+            redirect('users/view');
+            return;
         } else {
             $data['signup'] = $this->UserModel->find($id);
             if (!$data['signup']) {
-                echo 'Team signup not found';
+                redirect('users/view');
                 return;
             }
             $this->call->view('users/delete', $data);
