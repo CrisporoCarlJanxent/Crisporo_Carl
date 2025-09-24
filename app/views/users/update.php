@@ -187,7 +187,7 @@
                     <div class="form-group">
                         <label>Current Logo</label>
                         <div style="margin: 10px 0; text-align: center;">
-                            <img src="<?= base_url($signup['team_logo']) ?>" alt="Team Logo" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #334155;">
+                            <img src="<?= public_url($signup['team_logo']) ?>" alt="Team Logo" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #334155;">
                         </div>
                     </div>
                     <?php endif; ?>

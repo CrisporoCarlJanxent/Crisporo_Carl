@@ -320,7 +320,7 @@
                                 <td><span class="badge bg-primary"><?= $signup['id']; ?></span></td>
                                 <td>
                                     <?php if(isset($signup['team_logo']) && !empty($signup['team_logo'])): ?>
-                                        <img src="<?= base_url() . 'public/' . $signup['team_logo'] ?>" 
+                                        <img src="<?= public_url($signup['team_logo']) ?>" 
                                              alt="<?= htmlspecialchars($signup['team_name']) ?> Logo" 
                                              class="team-logo"
                                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
