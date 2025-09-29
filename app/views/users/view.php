@@ -272,7 +272,32 @@
             <i class="fas fa-trophy gaming-icon"></i>
         </h2>
 
-        <!-- Search + Add/Back -->
+        <!-- User Info + Search + Add/Back -->
+        <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <!-- User Info -->
+            <div class="user-info d-flex align-items-center gap-3">
+                <span class="text-light">
+                    <i class="fas fa-user"></i> 
+                    Welcome, <strong>
+                    <?php 
+                    $user = get_current_user();
+                    if ($user && isset($user['username'])) {
+                        echo htmlspecialchars($user['username']);
+                    } else {
+                        echo 'User';
+                    }
+                    ?>
+                    </strong>
+                </span>
+                <a href="<?= site_url('auth/profile') ?>" class="btn btn-sm btn-secondary-gaming">
+                    <i class="fas fa-cog"></i> Profile
+                </a>
+                <a href="<?= site_url('auth/logout') ?>" class="btn btn-sm btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
         <form method="get" action="<?= site_url('users/view'); ?>" class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="search-container d-flex align-items-center">
                 <div class="input-group">

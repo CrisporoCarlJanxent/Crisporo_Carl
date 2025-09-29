@@ -6,8 +6,18 @@ class UserController extends Controller {
     {
         parent::__construct();
         $this->call->model('UserModel');
-        $this->call->library('pagination'); 
-    }    public function view()
+        $this->call->library('pagination');
+        
+        // Ensure session is started
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        
+        // Require authentication for all methods
+        require_login();
+    }
+
+    public function view()
     {
         $page = 1;
         if (isset($_GET['page']) && !empty($_GET['page'])) {
