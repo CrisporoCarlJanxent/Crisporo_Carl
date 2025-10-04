@@ -5,12 +5,17 @@ app/vendor/*
 runtime/*
 !runtime/.htaccess
 !runtime/index.html
+!runtime/sessions/
+!runtime/sessions/index.html
+!runtime/logs/
+!runtime/logs/index.html
+!runtime/cache/
+!runtime/cache/index.html
 
 # IDE Files
 #-------------------------
 /nbproject/
 .idea/*
-
 ## Sublime Text cache files
 *.tmlanguage.cache
 *.tmPreferences.cache

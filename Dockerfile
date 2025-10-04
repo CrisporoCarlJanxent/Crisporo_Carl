@@ -12,8 +12,14 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 # Copy app files
 COPY . /var/www/html/
 
+# Create runtime directories
+RUN mkdir -p /var/www/html/runtime/logs \
+    && mkdir -p /var/www/html/runtime/sessions \
+    && mkdir -p /var/www/html/runtime/cache
+
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chmod -R 755 /var/www/html \
+    && chmod -R 777 /var/www/html/runtime
 
 EXPOSE 80
