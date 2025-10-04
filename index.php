@@ -1,4 +1,25 @@
 <?php
+// Emergency error display
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . '/runtime/logs/php_error.log');
+
+// Catch fatal errors
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        echo "<h1>Fatal Error Detected</h1>";
+        echo "<pre>";
+        print_r($error);
+        echo "</pre>";
+    }
+});
+
+// Start output buffering to catch any output
+ob_start();
+
 define('PREVENT_DIRECT_ACCESS', TRUE);
 /**
  * ------------------------------------------------------------------
