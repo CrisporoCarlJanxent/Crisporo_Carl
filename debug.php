@@ -61,6 +61,9 @@ try {
     
     echo "✓ Constants defined<br>";
     
+    // Define the security constant that LavaLust expects
+    define('PREVENT_DIRECT_ACCESS', true);
+    
     // Try to include the main framework file
     if (file_exists(SYSTEM_DIR . 'kernel/LavaLust.php')) {
         echo "✓ LavaLust.php found, attempting to include...<br>";
