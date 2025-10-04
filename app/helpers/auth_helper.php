@@ -10,16 +10,8 @@ if (!function_exists('is_logged_in'))
      */
     function is_logged_in()
     {
-        try {
-            $CI =& get_instance();
-            error_log("Session object exists: " . (isset($CI->session) ? 'yes' : 'no'));
-            $result = $CI->session->userdata('is_logged_in') === true;
-            error_log("Session is_logged_in value: " . var_export($CI->session->userdata('is_logged_in'), true));
-            return $result;
-        } catch (Throwable $e) {
-            error_log("Error in is_logged_in(): " . $e->getMessage());
-            return false;
-        }
+        $CI =& get_instance();
+        return $CI->session->userdata('is_logged_in') === true;
     }
 }
 
@@ -87,12 +79,7 @@ if (!function_exists('require_login'))
      */
     function require_login()
     {
-        // Debug logging
-        error_log("require_login() called");
-        error_log("is_logged_in result: " . (is_logged_in() ? 'true' : 'false'));
-        
         if (!is_logged_in()) {
-            error_log("Redirecting to auth/login");
             redirect('auth/login');
         }
     }
