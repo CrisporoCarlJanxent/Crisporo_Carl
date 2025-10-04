@@ -5,6 +5,9 @@ ini_set('display_errors', 1);
 
 echo "Testing main application...<br>";
 
+// Define the security constant FIRST
+define('PREVENT_DIRECT_ACCESS', true);
+
 // Set the same constants as index.php
 $system_path = 'scheme';
 $application_folder = 'app';
