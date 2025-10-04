@@ -54,8 +54,10 @@ $router->get('/auth/profile', 'AuthController::profile');
 $router->match('/auth/update_profile', 'AuthController::update_profile', ['GET', 'POST']);
 $router->match('/auth/change_password', 'AuthController::change_password', ['GET', 'POST']);
 
+// Home route - redirect to login
+$router->get('', 'AuthController::login');
+
 // Protected routes (require authentication)
-$router->get('', 'UserController::view');
 $router->get('/users/view', 'UserController::view');
 $router->match('/users/create', 'UserController::create', ['GET', 'POST']);
 $router->match('/users/update/{id}', 'UserController::update', ['GET', 'POST']);
