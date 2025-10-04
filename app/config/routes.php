@@ -57,6 +57,9 @@ $router->match('/auth/change_password', 'AuthController::change_password', ['GET
 // Home route - redirect to login
 $router->get('', 'AuthController::login');
 
+// Dashboard (simple success page after login)
+$router->get('/dashboard', 'Dashboard::index');
+
 // Protected routes (require authentication)
 $router->get('/users/view', 'UserController::view');
 $router->match('/users/create', 'UserController::create', ['GET', 'POST']);

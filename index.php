@@ -1,4 +1,22 @@
 <?php
+// Force all errors to display
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+
+// Register error handler
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        echo "<html><body>";
+        echo "<h1>Fatal Error Detected</h1>";
+        echo "<p><strong>Error:</strong> " . htmlspecialchars($error['message']) . "</p>";
+        echo "<p><strong>File:</strong> " . htmlspecialchars($error['file']) . "</p>";
+        echo "<p><strong>Line:</strong> " . $error['line'] . "</p>";
+        echo "</body></html>";
+    }
+});
+
 define('PREVENT_DIRECT_ACCESS', TRUE);
 /**
  * ------------------------------------------------------------------

@@ -41,8 +41,8 @@ class AuthController extends Controller {
                     'is_logged_in' => true
                 ]);
                 
-                // Redirect to users view after successful login
-                redirect('users/view');
+                // Redirect to dashboard after successful login
+                redirect('dashboard');
             } else {
                 $data['error'] = 'Invalid username or password.';
                 $this->call->view('auth/login', $data);
