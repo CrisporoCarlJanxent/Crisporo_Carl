@@ -41,4 +41,3 @@ class UserModel extends Model {
         }
     }
 }
-?>

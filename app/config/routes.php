@@ -43,8 +43,8 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
-// Setup routes
-$router->get('/setup/admin', 'SetupController::admin');
+// Home route - redirect to login
+$router->get('', 'AuthController::login');
 
 // Authentication routes
 $router->match('/auth/login', 'AuthController::login', ['GET', 'POST']);
@@ -53,9 +53,6 @@ $router->get('/auth/logout', 'AuthController::logout');
 $router->get('/auth/profile', 'AuthController::profile');
 $router->match('/auth/update_profile', 'AuthController::update_profile', ['GET', 'POST']);
 $router->match('/auth/change_password', 'AuthController::change_password', ['GET', 'POST']);
-
-// Home route - redirect to login
-$router->get('', 'AuthController::login');
 
 // Dashboard (simple success page after login)
 $router->get('/dashboard', 'Dashboard::index');

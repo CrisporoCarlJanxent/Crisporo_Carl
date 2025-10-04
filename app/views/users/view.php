@@ -274,23 +274,13 @@
 
         <!-- User Info + Search + Add/Back -->
         <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-            <!-- User Info -->
-            <div class="user-info d-flex align-items-center gap-3">
-                <span class="text-light">
-                    <i class="fas fa-user"></i> 
-                    Welcome, <strong>
-                    <?php 
-                    $user = get_current_user();
-                    if ($user && isset($user['username'])) {
-                        echo htmlspecialchars($user['username']);
-                    } else {
-                        echo 'User';
-                    }
-                    ?>
-                    </strong>
-                </span>
+            <!-- Navigation -->
+            <div class="user-info d-flex align-items-center gap-2">
+                <a href="<?= site_url('dashboard') ?>" class="btn btn-sm btn-secondary-gaming">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
                 <a href="<?= site_url('auth/profile') ?>" class="btn btn-sm btn-secondary-gaming">
-                    <i class="fas fa-cog"></i> Profile
+                    <i class="fas fa-user"></i> Profile
                 </a>
                 <a href="<?= site_url('auth/logout') ?>" class="btn btn-sm btn-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout

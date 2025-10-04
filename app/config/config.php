@@ -79,10 +79,8 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'https://crisporo-carl.onrender.com/';
-                                    /*'http://localhost/CRUD%20BIT/Crisporo_Carl/'*/ 
-                                 
-                                    /* 'https://crisporo-carl.onrender.com/'*/
+$config['base_url'] 				= '';
+
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -107,7 +105,7 @@ $config['index_page']               = 'index.php';
 |   3 = All
 |
 */
-$config['log_threshold']            = 1;
+$config['log_threshold']            = 0;
 $config['log_dir']                  = 'runtime/logs/';
 
 /*

@@ -66,8 +66,6 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------
 | These are the classes located in scheme/libraries/ or your
 | app/libraries/ directory, with the addition of the
-| 'database' library, which is somewhat of a special case.
-|
 | Prototype:
 |
 |	$autoload['libraries'] = array('database', 'email', 'session');
@@ -82,7 +80,7 @@ $autoload['libraries'] = array('database', 'session');
 |
 |	$autoload['helpers'] = array('url', 'file');
 */
-$autoload['helpers'] = array('url', 'asset', 'auth');
+$autoload['helpers'] = array('url', 'auth');
 
 /*
 | -------------------------------------------------------------------
@@ -95,9 +93,9 @@ $autoload['helpers'] = array('url', 'asset', 'auth');
 $autoload['models'] = array('UserModel', 'AuthModel');
 
 /*
-| -------------------------------------------------------------------
+| ------------------------------------------------------------------
 |  Auto-load Config files
-| -------------------------------------------------------------------
+| ------------------------------------------------------------------
 | Prototype:
 |
 |	$autoload['configs'] = array('config1', 'config2');

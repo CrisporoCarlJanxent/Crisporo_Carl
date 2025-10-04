@@ -10,26 +10,19 @@ class Dashboard extends Controller {
             exit();
         }
         
-        $user = get_current_user();
+        // Get user data directly from session
+        $username = $this->session->userdata('username');
+        $email = $this->session->userdata('email');
+        $role = $this->session->userdata('role');
         
-        echo "<!DOCTYPE html>";
-        echo "<html><head><title>Dashboard</title>";
-        echo "<style>body{font-family:Arial;margin:40px;} .success{background:#4CAF50;color:white;padding:20px;border-radius:5px;}</style>";
-        echo "</head><body>";
-        echo "<div class='success'>";
-        echo "<h1>✓ Login Successful!</h1>";
-        echo "<p>Welcome, <strong>" . htmlspecialchars($user['username']) . "</strong>!</p>";
-        echo "<p>Email: " . htmlspecialchars($user['email']) . "</p>";
-        echo "<p>Role: " . htmlspecialchars($user['role']) . "</p>";
-        echo "</div>";
-        echo "<h2>Navigation:</h2>";
-        echo "<ul>";
-        echo "<li><a href='" . site_url('users/view') . "'>View Users</a></li>";
-        echo "<li><a href='" . site_url('users/create') . "'>Create User</a></li>";
-        echo "<li><a href='" . site_url('auth/profile') . "'>My Profile</a></li>";
-        echo "<li><a href='" . site_url('auth/logout') . "'>Logout</a></li>";
-        echo "</ul>";
-        echo "</body></html>";
+        // Load the dashboard view with data
+        $data = [
+            'username' => $username,
+            'email' => $email,
+            'role' => $role
+        ];
+        
+        $this->call->view('dashboard/index', $data);
     }
 }
 ?>
