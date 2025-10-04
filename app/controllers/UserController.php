@@ -8,50 +8,57 @@ class UserController extends Controller {
         $this->call->model('UserModel');
         $this->call->library('pagination');
         
-        // Ensure session is started
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        
         // Require authentication for all methods
-        require_login();
+        if (!is_logged_in()) {
+            redirect('auth/login');
+            exit();
+        }
     }
 
     public function view()
     {
-        $page = 1;
-        if (isset($_GET['page']) && !empty($_GET['page'])) {
-            $page = $this->io->get('page');
+        try {
+            $page = 1;
+            if (isset($_GET['page']) && !empty($_GET['page'])) {
+                $page = $this->io->get('page');
+            }
+
+            $q = '';
+            if (isset($_GET['q']) && !empty($_GET['q'])) {
+                $q = trim($this->io->get('q'));
+            }
+
+            $records_per_page = 5;
+
+            $all = $this->UserModel->page($q, $records_per_page, $page);
+            $data['signups'] = $all['records'];
+            $total_rows = $all['total_rows'];
+
+            $this->pagination->set_options([
+                'first_link'     => '⏮ First',
+                'last_link'      => 'Last ⏭',
+                'next_link'      => 'Next →',
+                'prev_link'      => '← Prev',
+                'page_delimiter' => '&page='
+            ]);
+            $this->pagination->set_theme('bootstrap');
+            $this->pagination->initialize(
+                $total_rows,
+                $records_per_page,
+                $page,
+                site_url('users/view') . '?q=' . urlencode($q)
+            );
+            $data['page'] = $this->pagination->paginate();
+
+            $this->call->view('users/view', $data);
+        } catch (Exception $e) {
+            echo "<h1>Error in UserController::view()</h1>";
+            echo "<p>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+            echo "<p>File: " . htmlspecialchars($e->getFile()) . "</p>";
+            echo "<p>Line: " . $e->getLine() . "</p>";
+            echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+            exit();
         }
-
-        $q = '';
-        if (isset($_GET['q']) && !empty($_GET['q'])) {
-            $q = trim($this->io->get('q'));
-        }
-
-        $records_per_page = 5;
-
-        $all = $this->UserModel->page($q, $records_per_page, $page);
-        $data['signups'] = $all['records'];
-        $total_rows = $all['total_rows'];
-
-        $this->pagination->set_options([
-            'first_link'     => '⏮ First',
-            'last_link'      => 'Last ⏭',
-            'next_link'      => 'Next →',
-            'prev_link'      => '← Prev',
-            'page_delimiter' => '&page='
-        ]);
-        $this->pagination->set_theme('bootstrap');
-        $this->pagination->initialize(
-            $total_rows,
-            $records_per_page,
-            $page,
-            site_url('users/view') . '?q=' . urlencode($q)
-        );
-        $data['page'] = $this->pagination->paginate();
-
-        $this->call->view('users/view', $data);
     }
 
     public function create()

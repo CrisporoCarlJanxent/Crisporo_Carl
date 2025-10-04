@@ -41,12 +41,8 @@ class AuthController extends Controller {
                     'is_logged_in' => true
                 ]);
                 
-                // Redirect based on role
-                if ($user['role'] === 'admin') {
-                    redirect('admin/dashboard');
-                } else {
-                    redirect('users/view');
-                }
+                // Redirect to users view after successful login
+                redirect('users/view');
             } else {
                 $data['error'] = 'Invalid username or password.';
                 $this->call->view('auth/login', $data);
