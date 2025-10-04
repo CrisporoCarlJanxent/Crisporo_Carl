@@ -201,12 +201,7 @@
                 </h1>
             </div>
             <div class="card-body">
-                <form action="<?= site_url('users/create') ?>" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="team_logo">Team Logo</label>
-                        <input type="file" name="team_logo" id="team_logo" accept="image/*" required class="form-control" style="background: #0f172a; color: #f1f5f9; border: 2px solid #334155; padding: 8px;">
-                        <small style="display: block; margin-top: 4px; color: #94a3b8;">Accepted formats: JPG, JPEG, PNG, GIF (Max: 2MB)</small>
-                    </div>
+                <form action="<?= site_url('users/create') ?>" method="POST">
                     <div class="form-group">
                         <label for="team_name">Team Name</label>
                         <input type="text" name="team_name" id="team_name" placeholder="Enter your team name" required>

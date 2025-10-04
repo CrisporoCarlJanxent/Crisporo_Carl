@@ -331,7 +331,6 @@
                 <thead>
                     <tr>
                         <th><i class="fas fa-hashtag"></i> ID</th>
-                        <th><i class="fas fa-image"></i> Logo</th>
                         <th><i class="fas fa-users"></i> Team Name</th>
                         <th><i class="fas fa-crown"></i> Captain</th>
                         <th><i class="fas fa-gamepad"></i> Game Title</th>
@@ -343,22 +342,6 @@
                         <?php foreach ($signups as $signup): ?>
                             <tr>
                                 <td><span class="badge bg-primary"><?= $signup['id']; ?></span></td>
-                                <td>
-                                    <?php if(isset($signup['team_logo']) && !empty($signup['team_logo'])): ?>
-                                        <img src="<?= public_url($signup['team_logo']) ?>" 
-                                             alt="<?= htmlspecialchars($signup['team_name']) ?> Logo" 
-                                             class="team-logo"
-                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                             title="<?= htmlspecialchars($signup['team_name']) ?> Team Logo">
-                                        <div class="logo-placeholder" style="display: none;" title="No logo uploaded">
-                                            <i class="fas fa-image" style="color: var(--text-secondary); font-size: 1.2rem;"></i>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="logo-placeholder" title="No logo uploaded">
-                                            <i class="fas fa-image" style="color: var(--text-secondary); font-size: 1.2rem;"></i>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
                                 <td><strong><?= htmlspecialchars($signup['team_name']); ?></strong></td>
                                 <td><?= htmlspecialchars($signup['captain_name']); ?></td>
                                 <td><em><?= htmlspecialchars($signup['game_title']); ?></em></td>
@@ -379,7 +362,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="no-results">
+                            <td colspan="5" class="no-results">
                                 <i class="fas fa-search gaming-icon"></i>
                                 No teams found. Ready to dominate? Create the first team!
                                 <i class="fas fa-rocket gaming-icon"></i>
