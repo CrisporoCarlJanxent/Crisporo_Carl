@@ -1,0 +1,452 @@
+/**
+ * Gaming Theme Utilities
+ * Reusable CSS classes for the gaming tournament design system
+ * Version: 1.0.0
+ */
+
+/* ========================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ======================================== */
+:root {
+    /* Primary Colors */
+    --primary-cyan: #00d4ff;
+    --secondary-purple: #8b5cf6;
+    --accent-green: #10b981;
+    --accent-orange: #f59e0b;
+    
+    /* Background Colors */
+    --dark-bg: #0a0e1a;
+    --card-bg: #141b2d;
+    --border-color: #1e2738;
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --error-red: #ef4444;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    
+    /* Transitions */
+    --transition-fast: 0.15s;
+    --transition-base: 0.3s;
+    --transition-slow: 0.6s;
+    --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Text Utilities */
+.text-cyan { color: var(--primary-cyan) !important; }
+.text-purple { color: var(--secondary-purple) !important; }
+.text-green { color: var(--accent-green) !important; }
+.text-orange { color: var(--accent-orange) !important; }
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+
+.text-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-shimmer {
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Background Utilities */
+.bg-dark { background: var(--dark-bg) !important; }
+.bg-card { background: var(--card-bg) !important; }
+.bg-glass {
+    background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.8) 100%);
+    backdrop-filter: blur(15px);
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple)) !important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, var(--accent-green), #059669) !important;
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, var(--accent-orange), #d97706) !important;
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+/* Shadow Utilities */
+.shadow-glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.shadow-glow-purple {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.shadow-glow-green {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.shadow-elevated {
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Border Utilities */
+.border-cyan { border-color: var(--primary-cyan) !important; }
+.border-purple { border-color: var(--secondary-purple) !important; }
+.border-green { border-color: var(--accent-green) !important; }
+
+.border-glow-cyan {
+    border: 2px solid var(--primary-cyan);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+/* ========================================
+   COMPONENT CLASSES
+   ======================================== */
+
+/* Gaming Button */
+.btn-gaming {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px);
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-weight: 600;
+    font-size: clamp(13px, 2.5vw, 15px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-base) var(--easing-bounce);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.btn-gaming::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow) ease;
+}
+
+.btn-gaming:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-gaming:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 12px 30px rgba(0, 212, 255, 0.4),
+        0 0 40px rgba(0, 212, 255, 0.2);
+    color: white;
+}
+
+.btn-gaming:active {
+    transform: translateY(0) scale(1);
+}
+
+/* Gaming Card */
+.card-gaming {
+    background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.8) 100%);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: clamp(20px, 4vw, 24px);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    transition: all var(--transition-base) ease;
+}
+
+.card-gaming:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(0, 212, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Animated Border Card */
+.card-border-animated {
+    position: relative;
+}
+
+.card-border-animated::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderFlow 3s linear infinite;
+}
+
+/* Gaming Input */
+.input-gaming {
+    width: 100%;
+    padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
+    background: rgba(10, 14, 26, 0.8);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: clamp(14px, 3vw, 16px);
+    transition: all var(--transition-base) var(--easing-smooth);
+}
+
+.input-gaming:focus {
+    outline: none;
+    border-color: var(--primary-cyan);
+    background: rgba(10, 14, 26, 0.95);
+    box-shadow: 
+        0 0 0 3px rgba(0, 212, 255, 0.15),
+        0 0 20px rgba(0, 212, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
+}
+
+.input-gaming::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Badge */
+.badge-gaming {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+    border-radius: 20px;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Icon Glow */
+.icon-glow {
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+/* Avatar */
+.avatar-gaming {
+    width: clamp(60px, 12vw, 80px);
+    height: clamp(60px, 12vw, 80px);
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: bold;
+    color: white;
+    box-shadow: 
+        0 0 30px rgba(0, 212, 255, 0.5),
+        inset 0 2px 5px rgba(255, 255, 255, 0.2);
+    animation: avatarGlow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   ANIMATION KEYFRAMES
+   ======================================== */
+
+@keyframes shimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes borderFlow {
+    to {
+        background-position: 200% 200%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.08;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.12;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes avatarGlow {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+    }
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes bgShift {
+    to {
+        background: 
+            radial-gradient(circle at 70% 60%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+    }
+}
+
+/* ========================================
+   ANIMATION UTILITIES
+   ======================================== */
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.6s ease-out;
+}
+
+.animate-float {
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES
+   ======================================== */
+
+/* Mobile First Spacing */
+.p-responsive { padding: clamp(15px, 3vw, 20px); }
+.px-responsive { padding-left: clamp(15px, 3vw, 20px); padding-right: clamp(15px, 3vw, 20px); }
+.py-responsive { padding-top: clamp(15px, 3vw, 20px); padding-bottom: clamp(15px, 3vw, 20px); }
+.m-responsive { margin: clamp(15px, 3vw, 20px); }
+.mb-responsive { margin-bottom: clamp(15px, 3vw, 20px); }
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus Visible (keyboard navigation) */
+*:focus-visible {
+    outline: 2px solid var(--primary-cyan);
+    outline-offset: 2px;
+}
+
+/* Skip to main content link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-cyan);
+    color: var(--dark-bg);
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ========================================
+   MEDIA QUERIES
+   ======================================== */
+
+@media (max-width: 768px) {
+    .hide-mobile { display: none !important; }
+}
+
+@media (min-width: 769px) {
+    .hide-desktop { display: none !important; }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .no-print { display: none !important; }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .card-gaming {
+        border: 1px solid #000;
+        box-shadow: none;
+    }
+}

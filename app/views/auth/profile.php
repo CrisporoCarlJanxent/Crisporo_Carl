@@ -10,78 +10,171 @@
             --primary-cyan: #00d4ff;
             --secondary-purple: #8b5cf6;
             --accent-green: #10b981;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
+            --dark-bg: #0a0e1a;
+            --card-bg: #141b2d;
+            --border-color: #1e2738;
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --error-red: #ef4444;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            background: radial-gradient(ellipse at top, #1a1f35 0%, var(--dark-bg) 50%, #000 100%);
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
-            padding: 20px;
+            padding: clamp(15px, 3vw, 20px);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .profile-header {
-            background: var(--card-bg);
-            border: 2px solid var(--primary-cyan);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.1);
-            padding: 24px;
-            margin-bottom: 24px;
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.8) 100%);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: clamp(20px, 4vw, 24px);
+            margin-bottom: clamp(20px, 3vw, 24px);
             text-align: center;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+            background-size: 200% 200%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderFlow 3s linear infinite;
+        }
+
+        @keyframes borderFlow {
+            to { background-position: 200% 200%; }
         }
 
         .profile-title {
             font-family: 'Orbitron', monospace;
-            font-size: 28px;
-            color: var(--primary-cyan);
+            font-size: clamp(1.5rem, 5vw, 1.75rem);
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
             margin-bottom: 8px;
+            animation: shimmer 3s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .profile-title i {
+            -webkit-text-fill-color: var(--primary-cyan);
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
         }
 
         .profile-subtitle {
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: clamp(14px, 3vw, 16px);
+            position: relative;
+            z-index: 1;
         }
 
         .profile-card {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.8) 100%);
             border: 2px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            margin-bottom: 24px;
+            margin-bottom: clamp(20px, 3vw, 24px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 25px 70px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            padding: clamp(16px, 3vw, 20px) clamp(20px, 4vw, 24px);
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--primary-cyan), transparent) 1;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
         }
 
         .card-title {
             margin: 0;
-            font-size: 20px;
+            font-size: clamp(16px, 3.5vw, 20px);
             color: var(--primary-cyan);
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
         }
 
         .card-body {
-            padding: 24px;
+            padding: clamp(20px, 4vw, 24px);
         }
 
         .form-group {
@@ -100,20 +193,24 @@
 
         .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
             border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--dark-bg);
+            border-radius: 10px;
+            background: rgba(10, 14, 26, 0.8);
             color: var(--text-primary);
-            transition: all 0.3s ease;
-            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: clamp(14px, 3vw, 16px);
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
-            background: var(--dark-bg);
+            box-shadow: 
+                0 0 0 3px rgba(0, 212, 255, 0.15),
+                0 0 20px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: rgba(10, 14, 26, 0.95);
+            transform: translateY(-1px);
         }
 
         .form-control:disabled {
@@ -140,12 +237,34 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
             color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-primary:hover::before {
+            transform: translateX(100%);
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 12px 30px rgba(0, 212, 255, 0.4),
+                0 0 40px rgba(0, 212, 255, 0.2);
             color: white;
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(1);
         }
 
         .btn-secondary {
@@ -157,6 +276,8 @@
         .btn-secondary:hover {
             border-color: var(--primary-cyan);
             color: var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.05);
+            transform: translateY(-1px);
         }
 
         .btn-danger {
@@ -165,8 +286,10 @@
         }
 
         .btn-danger:hover {
-            background: #dc2626;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
         }
 
         .error-message {
@@ -261,6 +384,47 @@
         .back-link:hover {
             color: var(--secondary-purple);
             text-decoration: none;
+            transform: translateX(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .user-info {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .profile-header,
+            .profile-card {
+                border-radius: 16px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>

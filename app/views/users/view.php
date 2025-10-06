@@ -12,52 +12,114 @@
             --primary-cyan: #00d4ff;
             --secondary-purple: #8b5cf6;
             --accent-green: #10b981;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
+            --dark-bg: #0a0e1a;
+            --card-bg: #141b2d;
+            --border-color: #1e2738;
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            background: radial-gradient(ellipse at top, #1a1f35 0%, var(--dark-bg) 50%, #000 100%);
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: clamp(15px, 3vw, 20px);
+        }
+
         .main-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.8) 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Title */
         .main-title {
             font-family: 'Orbitron', monospace;
             font-weight: 700;
-            font-size: 2rem;
-            color: var(--primary-cyan);
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .main-title i {
+            -webkit-text-fill-color: var(--primary-cyan);
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
         }
 
         /* Search Input */
         .search-input {
-            background: var(--dark-bg);
+            background: rgba(10, 14, 26, 0.8);
             border: 2px solid var(--border-color);
             color: var(--text-primary);
             border-radius: 12px;
-            padding: 12px 16px;
-            transition: all 0.3s ease;
+            padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: clamp(14px, 2.5vw, 16px);
         }
 
         .search-input:focus {
             border-color: var(--primary-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
-            background: var(--dark-bg);
+            box-shadow: 
+                0 0 0 3px rgba(0, 212, 255, 0.15),
+                0 0 20px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: rgba(10, 14, 26, 0.95);
             color: var(--text-primary);
+            transform: translateY(-1px);
         }
 
         .search-input::placeholder {
@@ -71,13 +133,30 @@
             color: white;
             font-weight: 600;
             border-radius: 12px;
-            padding: 12px 24px;
-            transition: all 0.3s ease;
+            padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: clamp(13px, 2.5vw, 15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-gaming::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-gaming:hover::before {
+            transform: translateX(100%);
         }
 
         .btn-gaming:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
             color: white;
         }
 
@@ -87,44 +166,61 @@
             color: var(--text-secondary);
             font-weight: 600;
             border-radius: 12px;
-            padding: 10px 20px;
-            transition: all 0.3s ease;
+            padding: clamp(8px, 1.8vw, 10px) clamp(16px, 2.8vw, 20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: clamp(13px, 2.5vw, 14px);
         }
 
         .btn-secondary-gaming:hover {
             border-color: var(--primary-cyan);
             color: var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.05);
+            transform: translateY(-1px);
         }
 
         /* Table */
         .gaming-table {
-            background: var(--dark-bg);
+            background: rgba(10, 14, 26, 0.6);
             border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            overflow-y: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         .gaming-table th {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.8) 0%, rgba(20, 27, 45, 0.6) 100%);
             color: var(--primary-cyan);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
             letter-spacing: 0.5px;
             border-bottom: 2px solid var(--primary-cyan);
-            padding: 16px 12px;
+            padding: clamp(12px, 2.5vw, 16px) clamp(8px, 2vw, 12px);
+            white-space: nowrap;
         }
 
         .gaming-table td {
-            background: var(--dark-bg);
+            background: rgba(10, 14, 26, 0.4);
             color: var(--text-primary);
             border-bottom: 1px solid var(--border-color);
-            padding: 16px 12px;
-            transition: background 0.2s ease;
+            padding: clamp(12px, 2.5vw, 16px) clamp(8px, 2vw, 12px);
+            transition: all 0.3s ease;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+        }
+
+        .gaming-table tbody tr {
+            transition: all 0.3s ease;
         }
 
         .gaming-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.05);
+            background: rgba(0, 212, 255, 0.08);
+            transform: scale(1.01);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .gaming-table tbody tr:hover td {
+            background: transparent;
         }
 
         /* Team Logo Styling - FIXED */
@@ -163,35 +259,43 @@
 
         /* Action Buttons */
         .btn-edit {
-            background: var(--accent-green);
+            background: linear-gradient(135deg, var(--accent-green), #059669);
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 0.9rem;
+            padding: clamp(5px, 1.2vw, 6px) clamp(10px, 2vw, 12px);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
         .btn-edit:hover {
-            background: #059669;
+            background: linear-gradient(135deg, #059669, #047857);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
         .btn-delete {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 0.9rem;
+            padding: clamp(5px, 1.2vw, 6px) clamp(10px, 2vw, 12px);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
 
         .btn-delete:hover {
-            background: #dc2626;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
 
         /* Pagination */
@@ -241,23 +345,74 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 1.5rem;
+            .user-info {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
             }
-            
+
+            .user-info .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .input-group {
+                width: 100%;
+            }
+
             .gaming-table {
-                font-size: 0.9rem;
-            }
-            
-            .gaming-table th,
-            .gaming-table td {
-                padding: 12px 8px;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .team-logo,
             .logo-placeholder {
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .main-container {
+                border-radius: 16px;
+            }
+
+            .mb-4 {
+                margin-bottom: 15px !important;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+
+            .btn-edit i,
+            .btn-delete i {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>

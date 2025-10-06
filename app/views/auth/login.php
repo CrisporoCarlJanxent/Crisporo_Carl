@@ -10,56 +10,152 @@
             --primary-cyan: #00d4ff;
             --secondary-purple: #8b5cf6;
             --accent-green: #10b981;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
+            --dark-bg: #0a0e1a;
+            --card-bg: #141b2d;
+            --border-color: #1e2738;
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --error-red: #ef4444;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            background: radial-gradient(ellipse at top, #1a1f35 0%, var(--dark-bg) 50%, #000 100%);
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: bgShift 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgShift {
+            to {
+                background: 
+                    radial-gradient(circle at 70% 60%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            }
         }
 
         .auth-container {
             max-width: 400px;
             width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .auth-card {
-            background: var(--card-bg);
-            border: 2px solid var(--primary-cyan);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.1);
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(20, 27, 45, 0.9) 100%);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             overflow: hidden;
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+            background-size: 200% 200%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderFlow 3s linear infinite;
+        }
+
+        @keyframes borderFlow {
+            to { background-position: 200% 200%; }
         }
 
         .auth-header {
-            padding: 24px 24px 16px;
-            border-bottom: 1px solid var(--primary-cyan);
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            padding: clamp(20px, 5vw, 24px) clamp(20px, 5vw, 24px) clamp(14px, 3vw, 16px);
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--primary-cyan), transparent) 1;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
             text-align: center;
+            position: relative;
+        }
+
+        .auth-header::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+            box-shadow: 0 0 10px var(--primary-cyan);
         }
 
         .auth-title {
             margin: 0;
             font-family: 'Orbitron', monospace;
-            font-size: 24px;
-            color: var(--primary-cyan);
+            font-size: clamp(20px, 5vw, 28px);
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple), var(--primary-cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .auth-title i {
+            -webkit-text-fill-color: var(--primary-cyan);
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6));
         }
 
         .auth-body {
-            padding: 24px;
+            padding: clamp(20px, 5vw, 24px);
         }
 
         .form-group {
@@ -78,20 +174,25 @@
 
         .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
             border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--dark-bg);
+            border-radius: 10px;
+            background: rgba(10, 14, 26, 0.8);
             color: var(--text-primary);
-            transition: all 0.3s ease;
-            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: clamp(14px, 3vw, 16px);
+            position: relative;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
-            background: var(--dark-bg);
+            box-shadow: 
+                0 0 0 3px rgba(0, 212, 255, 0.15),
+                0 0 20px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: rgba(10, 14, 26, 0.95);
+            transform: translateY(-1px);
         }
 
         .form-control::placeholder {
@@ -104,18 +205,41 @@
             border: none;
             color: white;
             font-weight: 600;
-            border-radius: 8px;
-            padding: 12px 24px;
-            transition: all 0.3s ease;
-            font-size: 16px;
+            border-radius: 10px;
+            padding: clamp(10px, 2.5vw, 14px) clamp(20px, 4vw, 24px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: clamp(14px, 3vw, 16px);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-login:hover::before {
+            transform: translateX(100%);
         }
 
         .btn-login:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 12px 30px rgba(0, 212, 255, 0.4),
+                0 0 40px rgba(0, 212, 255, 0.2);
             color: white;
+        }
+
+        .btn-login:active {
+            transform: translateY(0) scale(1);
         }
 
         .btn-register {
@@ -124,10 +248,10 @@
             border: 2px solid var(--border-color);
             color: var(--text-secondary);
             font-weight: 600;
-            border-radius: 8px;
-            padding: 10px 24px;
-            transition: all 0.3s ease;
-            font-size: 16px;
+            border-radius: 10px;
+            padding: clamp(8px, 2vw, 10px) clamp(20px, 4vw, 24px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: clamp(14px, 3vw, 16px);
             text-decoration: none;
             display: block;
             text-align: center;
@@ -136,7 +260,10 @@
         .btn-register:hover {
             border-color: var(--primary-cyan);
             color: var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.05);
             text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.1);
         }
 
         .error-message {
@@ -170,6 +297,33 @@
         .gaming-icon {
             color: var(--primary-cyan);
             margin-right: 8px;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                border-radius: 16px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
